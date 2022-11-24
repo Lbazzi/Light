@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.ProductMapper">
+
+    <select id="queryAllProduct" resultType="Product" parameterType="map">
+        select * from light_mall.product
+        <where>
+            <if test="pname != null and pname != ''">
+                and pname like concat('%', #{pname}, '%')
+            </if>
+            <if test="pclass != null and pclass != ''">
+                and pclass like concat('%', #{pclass}, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="addProduct" parameterType="Product">
+        insert into light_mall.product(pid, pname, pdes, price, stock, pclass, picture)
+        values (null, #{pname}, #{pdes}, #{price}, #{stock}, #{pclass}, #{picture})
+    </insert>
+
+    <delete id="deleteProduct" parameterType="int">
+        delete from light_mall.product where pid = #{pid}
+    </delete>
+
+    <select id="queryProductByPid" resultType="Product">
+        select * from light_mall.product where pid = #{pid}
+    </select>
+
+    <update id="updateProduct" parameterType="Product">
+        update light_mall.product
+        set pname = #{pname}, pdes = #{pdes}, price = #{price}, stock = #{stock}, pclass = #{pclass}, picture = #{picture}
+        where pid = #{pid}
+    </update>
+</mapper>

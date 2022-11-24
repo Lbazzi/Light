@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.ProductMapper">
+
+    <select id="queryProductByPclass" resultType="Product">
+        select * from light_mall.product where pclass = #{pclass}
+    </select>
+
+    <select id="queryProductByPname" resultType="Product">
+        select * from light_mall.product
+        where pname like concat('%', #{pname}, '%')
+    </select>
+
+    <select id="queryProductByPid" resultType="Product">
+        select * from light_mall.product where pid = #{pid}
+    </select>
+
+    <update id="addProductStock">
+        update light_mall.product set stock = stock + #{count} where pid = #{pid}
+    </update>
+
+    <update id="reduceProductStock">
+        update light_mall.product set stock = stock - #{count} where pid = #{pid}
+    </update>
+</mapper>

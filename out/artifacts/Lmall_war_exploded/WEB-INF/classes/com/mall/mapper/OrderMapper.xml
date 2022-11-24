@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.OrderMapper">
+
+    <insert id="addOrder" parameterType="map">
+        insert into light_mall.`order`(oid, oprice, otime, ostatus, uid) VALUES
+        (#{oid}, #{oprice}, #{otime}, #{ostatus}, #{uid})
+    </insert>
+
+    <insert id="addOrderProduct" parameterType="map">
+        insert into light_mall.order_product(opid, oid, quantity, pid) values (null, #{oid}, #{quantity}, #{pid})
+    </insert>
+
+    <select id="queryOrderByUid" resultMap="MyOrder">
+        select
+            o.oid as oid,
+            o.oprice as oprice,
+            o.otime as otime,
+            o.ostatus as ostatus,
+
+            u.uid as uid,
+            u.uname as uname,
+            u.upassword as upassword,
+            u.ugender as ugender,
+            u.uemail as uemail,
+            u.uphone as uphone,
+            u.ustatus as ustatus,
+            u.uaddress as uaddress,
+
+            p.pid as pid,
+            p.pname as pname,
+            p.pdes as pdes,
+            p.price as price,
+            p.stock as stock,
+            p.pclass as pclass,
+            p.picture as picture,
+
+            op.opid as opid,
+            op.quantity as quantity
+        from
+             light_mall.`order` as o,
+             light_mall.order_product as op,
+             light_mall.product as p,
+             light_mall.user as u
+        where
+            op.oid = o.oid and u.uid = #{uid} and op.pid = p.pid
+        order by otime desc;
+    </select>
+
+    <select id="queryOrderByOstatus" resultMap="MyOrder">
+        select
+            o.oid as oid,
+            o.oprice as oprice,
+            o.otime as otime,
+            o.ostatus as ostatus,
+
+            u.uid as uid,
+            u.uname as uname,
+            u.upassword as upassword,
+            u.ugender as ugender,
+            u.uemail as uemail,
+            u.uphone as uphone,
+            u.ustatus as ustatus,
+            u.uaddress as uaddress,
+
+            p.pid as pid,
+            p.pname as pname,
+            p.pdes as pdes,
+            p.price as price,
+            p.stock as stock,
+            p.pclass as pclass,
+            p.picture as picture,
+
+            op.opid as opid,
+            op.quantity as quantity
+        from
+            light_mall.`order` as o,
+            light_mall.order_product as op,
+            light_mall.product as p,
+            light_mall.user as u
+        where
+            op.oid = o.oid and u.uid = #{uid} and op.pid = p.pid and o.ostatus = #{ostatus}
+        order by otime desc;
+    </select>
+
+    <resultMap id="MyOrder" type="Order">
+        <result property="oid" column="oid"/>
+        <result property="oprice" column="oprice"/>
+        <result property="otime" column="otime"/>
+        <result property="ostatus" column="ostatus"/>
+        <association property="user" javaType="User">
+            <result property="uid" column="uid"/>
+            <result property="uname" column="uname"/>
+            <result property="upassword" column="upassword"/>
+            <result property="ugender" column="ugender"/>
+            <result property="uemail" column="uemail"/>
+            <result property="uphone" column="uphone"/>
+            <result property="ustatus" column="ustatus"/>
+            <result property="uaddress" column="uaddress"/>
+        </association>
+        <collection property="orderProducts" ofType="OrderProduct">
+            <result property="opid" column="opid"/>
+            <result property="oid" column="oid"/>
+            <result property="quantity" column="quantity"/>
+            <association property="product" javaType="Product">
+                <result property="pid" column="pid"/>
+                <result property="pname" column="pname"/>
+                <result property="pdes" column="pdes"/>
+                <result property="price" column="price"/>
+                <result property="stock" column="stock"/>
+                <result property="pclass" column="pclass"/>
+                <result property="picture" column="picture"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="queryOrderByOid" resultMap="MyOrder">
+        select
+            o.oid as oid,
+            o.oprice as oprice,
+            o.otime as otime,
+            o.ostatus as ostatus,
+
+            u.uid as uid,
+            u.uname as uname,
+            u.upassword as upassword,
+            u.ugender as ugender,
+            u.uemail as uemail,
+            u.uphone as uphone,
+            u.ustatus as ustatus,
+            u.uaddress as uaddress,
+
+            p.pid as pid,
+            p.pname as pname,
+            p.pdes as pdes,
+            p.price as price,
+            p.stock as stock,
+            p.pclass as pclass,
+            p.picture as picture,
+
+            op.opid as opid,
+            op.quantity as quantity
+        from
+            light_mall.`order` as o,
+            light_mall.order_product as op,
+            light_mall.product as p,
+            light_mall.user as u
+        where
+            op.oid = o.oid and u.uid = #{uid}  and op.pid = p.pid and o.oid = #{oid}
+    </select>
+
+    <update id="updateOrderByOstatus">
+        update light_mall.`order` set ostatus = #{ostatus} where oid = #{oid}
+    </update>
+
+    <delete id="deleteOrderByOid" parameterType="String">
+        delete from light_mall.`order` where oid = #{oid}
+    </delete>
+</mapper>

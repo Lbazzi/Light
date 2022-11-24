@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.UserMapper">
+
+    <insert id="addUser" parameterType="User">
+        insert into light_mall.user(uid, uname, upassword, ugender, uemail, uphone, uaddress, ustatus)
+        values (#{uid}, #{uname}, #{upassword}, #{ugender}, #{uemail}, #{uphone}, #{uaddress}, #{ustatus})
+    </insert>
+
+    <select id="queryUserByUid" resultType="User">
+        select * from light_mall.user where uid = #{uid}
+    </select>
+
+    <select id="queryUserByUphone" resultType="User">
+        select * from light_mall.user where uphone = #{uphone}
+    </select>
+
+    <update id="updateUser" parameterType="User">
+        update light_mall.user
+        set uname = #{uname}, upassword = #{upassword}, ugender = #{ugender}, uemail = #{uemail}, uphone = #{uphone}, uaddress = #{uaddress}, ustatus = #{ustatus}
+        where uid = #{uid}
+    </update>
+
+    <update id="updateUserByPassword">
+        update light_mall.user set upassword = #{upassword} where uid = #{uid}
+    </update>
+</mapper>

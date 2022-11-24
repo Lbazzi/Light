@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.CarMapper">
+
+    <insert id="addCar" parameterType="map">
+        insert into light_mall.car(cid, quantity, pid, uid)
+        values (null, #{quantity}, #{pid}, #{uid})
+    </insert>
+
+    <delete id="deleteCar" parameterType="int">
+        delete from light_mall.car where cid = #{cid}
+    </delete>
+
+    <select id="queryCarByCid" resultMap="CarProduct">
+        select * from light_mall.car where cid = #{cid}
+    </select>
+
+    <select id="queryCarByUid" resultMap="CarProduct">
+        select * from light_mall.car where uid = #{uid}
+    </select>
+    <resultMap id="CarProduct" type="Car">
+        <result property="cid" column="cid" />
+        <result property="quantity" column="quantity" />
+        <association property="product" column="pid" javaType="Product" select="queryProductByPid" />
+        <association property="user" column="uid" javaType="User" select="queryUserByUid" />
+    </resultMap>
+    <select id="queryProductByPid" resultType="Product">
+        select * from light_mall.product where pid = #{pid}
+    </select>
+    <select id="queryUserByUid" resultType="User">
+        select * from light_mall.user where uid = #{uid}
+    </select>
+
+    <select id="queryCarByPidAndUid" resultType="Car">
+        select * from light_mall.car where pid = #{pid} and uid = #{uid}
+    </select>
+
+    <update id="updateCarByQuantity">
+        update light_mall.car set quantity = #{count} where pid = #{pid} and uid = #{uid}
+    </update>
+
+</mapper>

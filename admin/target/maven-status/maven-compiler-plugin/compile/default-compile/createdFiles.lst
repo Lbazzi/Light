@@ -1,0 +1,16 @@
+com\mall\service\OrderServiceImpl.class
+com\mall\pojo\Order.class
+com\mall\controller\UserController.class
+com\mall\mapper\ProductMapper.class
+com\mall\service\OrderService.class
+com\mall\mapper\UserMapper.class
+com\mall\controller\ProductController.class
+com\mall\pojo\OrderProduct.class
+com\mall\service\ProductServiceImpl.class
+com\mall\service\UserService.class
+com\mall\mapper\OrderMapper.class
+com\mall\pojo\Product.class
+com\mall\service\UserServiceImpl.class
+com\mall\service\ProductService.class
+com\mall\controller\OrderController.class
+com\mall\pojo\User.class
